@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+        <script src="angular.js"></script>
+    <!-- <script src="angular.min.js" ></script> -->
+    <!-- <script src="angular-route.min.js"></script> -->
+    <script src="angular-route.js"></script>
+    <script src="service.js"></script>
+    
+</head>
+<body>
+    <div class="container" ng-app="app"  >
+        <div class="row">
+            <div class="col-sm">
+                <nav role="navigation" class="navbar navbar-inverse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#Home">Home</a></li>
+                        <li><a href="#Add">Add</a></li>
+                        <li><a href="#Edit">Edit</a></li>
+                        <li><a href="#Delete">Delete</a></li>
+                    </ul>            
+                </nav> 
+            </div>
+
+            <div ng-view>
+
+
+            </div>
+
+            <div>
+                <h3 style="margin-top:150px"; class="text-center text-info">Single Page Application Using AngularJS + REST API</h3>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <script>
+            var app = angular.module('app',['ngRoute','EmployeeService']);
+            app.config(['$routeProvider',function($routeProvider){
+                $routeProvider.
+                when('/Add',{
+                    templateUrl : 'Views/add.html',
+                    controller : 'AddController'
+                }).
+                when('/Edit',{
+                    templateUrl : 'Views/edit.html',
+                    controller : 'EditController'
+                }).
+                when('/Delete',{
+                    templateUrl : 'Views/delete.html',
+                    controller : 'DeleteController'
+                }). 
+                when('/Home',{
+                    templateUrl : 'Views/home.html',
+                    controller : 'HomeController'
+                }). 
+                otherwise({
+                    redirectTo : '/Home'
+                });
+    
+            }]);
+            app.controller("AddController", function($scope){
+            //    $scope.message ="In Add View";
+                $scope.addEmp = function(){
+                    var empToAdd = {
+                        'Name': $scope.name,
+                        'Age': $scope.age,
+                        'Salary': $scope.sal
+                    }
+                }
+                //     EmpApi.AddEmployee(empToAdd).success(function(response){
+                //         alert("Employee Added");
+                //         $scope.name = undefined;
+                //         $scope.age = undefined;
+                //         $scope.sal = undefined;
+                //     }).
+                //     error(function(response){
+                //         alert("Error in Adding Employee");
+                //     });
+                // }
+                $scope.emps.push({"Name":$scope.data.Name,"Age":$scope.data.Age,"Sal":$scope.data.Sal});
+                $scope.name = undefined;
+                $scope.age = undefined;
+                $scope.sal = undefined;
+            });
+            app.controller("EditController", function($scope){
+                $scope.message = "In Edit View";
+            });
+            app.controller("DeleteController", function($scope){
+                $scope.message = "In Delete View";
+            });
+            app.controller("HomeController", function($scope, $http){
+            // app.controller("HomeController", function($scope, EmpApi){
+                // getEmployees();
+                
+                // function getEmployees(){
+                //     EmpApi.getEmployees().success(function(emps){
+                //         $scope.emps = emps;
+                //     })
+                //     .error(function(error){
+                //         $scope.status = 'Unable to load emp data:'+error.message;
+                //     })
+                    
+                // }
+                $http.get("json.txt").success(function(emps){
+                    $scope.emps = emps;
+                })
+                .error(function(error){
+                    $scope.status = 'Unable to load emp data:'+error.message;
+                })
+                
+            });
+        </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="angular-route.js"></script> -->
+</body>
+</html>

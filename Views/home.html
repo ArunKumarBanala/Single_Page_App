@@ -1,0 +1,31 @@
+<div class="row">
+    <h1 class="text-center text-danger">Employees</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8 col-sm-offset-2">
+            <input type="text" placeholder="Type to filter here" class="input-lg form-control" ng-model="txtFilter">
+            <br>
+            <br>
+            
+            
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="data in emps | filter:txtFilter">
+                    <td>{{data.Name}}</td>
+                    <td>{{data.Age}}</td>
+                    <td>{{data.Salary}}</td>
+                </tr>
+            </table>
+            
+            
+        </div>
+        
+    </div>
+</div>
